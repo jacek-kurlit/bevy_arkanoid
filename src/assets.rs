@@ -10,6 +10,7 @@ pub struct LoadedAssets {
     pub pink_brick: Handle<Image>,
     pub yellow_brick: Handle<Image>,
     pub ball: Handle<Image>,
+    pub wall: Handle<Image>,
 }
 
 impl Plugin for AssetsPlugin {
@@ -27,5 +28,6 @@ fn load_assets(asset_server: Res<AssetServer>, mut loaded_assets: ResMut<LoadedA
         blue_brick: asset_server.load("blue_brick.png"),
         pink_brick: asset_server.load("pink_brick.png"),
         ball: asset_server.load("ball.png"),
+        wall: asset_server.load("wall.png"),
     };
 }

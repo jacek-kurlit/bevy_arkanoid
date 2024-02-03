@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_xpbd_2d::components::{Collider, RigidBody};
 
 use crate::assets::LoadedAssets;
 
@@ -8,11 +9,12 @@ impl Plugin for PaddlePlugin {
     fn build(&self, app: &mut App) {
         //NOTE: PostStartup because ion start up we are loding assets!
         app.add_systems(PostStartup, spawn_paddle)
-            .add_systems(Update, update_position);
+            .add_systems(Update, move_paddle);
     }
 }
 
 pub const PADDLE_STARTING_POS: Vec3 = Vec3::new(0.0, -300.0, 0.0);
+const PADDLE_SPEED: f32 = 350.0;
 
 #[derive(Debug, Component)]
 struct Paddle;
@@ -25,15 +27,21 @@ fn spawn_paddle(mut commands: Commands, loaded_assets: Res<LoadedAssets>) {
             ..Default::default()
         },
         Paddle,
+        RigidBody::Kinematic,
+        Collider::cuboid(80.0, 20.0),
     ));
 }
 
-fn update_position(mut query: Query<&mut Transform, With<Paddle>>, input: Res<Input<KeyCode>>) {
+fn move_paddle(
+    mut query: Query<&mut Transform, With<Paddle>>,
+    input: Res<Input<KeyCode>>,
+    time: Res<Time>,
+) {
     let mut transform = query.single_mut();
     if input.pressed(KeyCode::A) {
-        transform.translation.x -= 5.0;
+        transform.translation.x -= PADDLE_SPEED * time.delta_seconds();
     }
     if input.pressed(KeyCode::D) {
-        transform.translation.x += 5.0;
+        transform.translation.x += PADDLE_SPEED * time.delta_seconds();
     }
 }

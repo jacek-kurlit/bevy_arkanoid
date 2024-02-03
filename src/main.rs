@@ -2,24 +2,29 @@ use assets::AssetsPlugin;
 use ball::BallPlugin;
 use bevy::{input::common_conditions::input_toggle_active, prelude::*};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_xpbd_2d::plugins::PhysicsPlugins;
 use bricks::BrickPlugin;
 use paddle::PaddlePlugin;
+use walls::WallPlugin;
 
 mod assets;
 mod ball;
 mod bricks;
 mod paddle;
+mod walls;
 
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::hex("3F7CB6").unwrap()))
         .add_plugins(DefaultPlugins)
         .add_plugins(WorldInspectorPlugin::default().run_if(input_toggle_active(true, KeyCode::I)))
+        .add_plugins(PhysicsPlugins::default())
         // custom
         .add_plugins(AssetsPlugin)
         .add_plugins(PaddlePlugin)
         .add_plugins(BrickPlugin)
         .add_plugins(BallPlugin)
+        .add_plugins(WallPlugin)
         .add_systems(Startup, spawn_camera)
         .add_systems(Update, bevy::window::close_on_esc)
         .run();
