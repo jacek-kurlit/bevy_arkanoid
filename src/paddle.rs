@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_xpbd_2d::components::{Collider, RigidBody};
 
-use crate::assets::LoadedAssets;
+use crate::{assets::LoadedAssets, ball::BallBounce};
 
 pub struct PaddlePlugin;
 
@@ -29,6 +29,7 @@ fn spawn_paddle(mut commands: Commands, loaded_assets: Res<LoadedAssets>) {
         Paddle,
         RigidBody::Kinematic,
         Collider::cuboid(80.0, 20.0),
+        BallBounce::new(Vec2::new(1.0, -1.0)),
     ));
 }
 

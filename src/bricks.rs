@@ -1,7 +1,7 @@
 use bevy::{ecs::system::EntityCommands, prelude::*};
 use bevy_xpbd_2d::components::{Collider, RigidBody};
 
-use crate::assets::LoadedAssets;
+use crate::{assets::LoadedAssets, ball::BallBounce};
 
 pub struct BrickPlugin;
 
@@ -39,10 +39,10 @@ fn spawn_bricks(mut commands: Commands, assets: Res<LoadedAssets>) {
         },
         Name::new("Bricks"),
     ));
-    // spawn_bricks_row(0, "Blue Brick", assets.blue_brick.clone(), &mut parent);
-    // spawn_bricks_row(1, "Red Brick", assets.red_brick.clone(), &mut parent);
-    // spawn_bricks_row(2, "Pink Brick", assets.pink_brick.clone(), &mut parent);
-    // spawn_bricks_row(3, "Yellow Brick", assets.yellow_brick.clone(), &mut parent);
+    spawn_bricks_row(0, "Blue Brick", assets.blue_brick.clone(), &mut parent);
+    spawn_bricks_row(1, "Red Brick", assets.red_brick.clone(), &mut parent);
+    spawn_bricks_row(2, "Pink Brick", assets.pink_brick.clone(), &mut parent);
+    spawn_bricks_row(3, "Yellow Brick", assets.yellow_brick.clone(), &mut parent);
 }
 
 fn spawn_bricks_row(
@@ -68,6 +68,7 @@ fn spawn_bricks_row(
                 Name::new(name),
                 RigidBody::Static,
                 Collider::cuboid(BRICK_WIDTH, BRICK_HEIGHT),
+                BallBounce::new(Vec2::new(1.0, -1.0)),
             ));
         });
     }

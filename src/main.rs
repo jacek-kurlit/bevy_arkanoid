@@ -2,7 +2,7 @@ use assets::AssetsPlugin;
 use ball::BallPlugin;
 use bevy::{input::common_conditions::input_toggle_active, prelude::*};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use bevy_xpbd_2d::plugins::PhysicsPlugins;
+use bevy_xpbd_2d::plugins::{PhysicsDebugPlugin, PhysicsPlugins};
 use bricks::BrickPlugin;
 use paddle::PaddlePlugin;
 use walls::WallPlugin;
@@ -19,6 +19,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugins(WorldInspectorPlugin::default().run_if(input_toggle_active(true, KeyCode::I)))
         .add_plugins(PhysicsPlugins::default())
+        .add_plugins(PhysicsDebugPlugin::default())
         // custom
         .add_plugins(AssetsPlugin)
         .add_plugins(PaddlePlugin)
